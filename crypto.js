@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const fs = require('fs');
 
 const secret = '516129';
 const hash = crypto.createHmac('sha256', secret)
@@ -24,3 +25,10 @@ cipher.on('end', () => {
 
 cipher.write('some clear text data');
 cipher.end();
+
+const cipher1 = crypto.createCipher('aes192', '12345');
+
+const input = fs.createReadStream('test.js');
+const output = fs.createWriteStream('test.enc');
+
+input.pipe(cipher1).pipe(output);
